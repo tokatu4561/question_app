@@ -1,5 +1,6 @@
 my-docker-laravel
-Laravelプロジェクト用　Docker使用したLEMP環境
+# 環境
+docker laravel react typescript tailwindcss
 
 # 手順
 ## コンテナを作る
