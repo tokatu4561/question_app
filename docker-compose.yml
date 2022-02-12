@@ -3,21 +3,23 @@ services:
   app:
     build: ./infra/php
     volumes:
-      - ./backend:/work 
+      - ./backend:/work
 
-  web: 
-    image: nginx:1.20-alpine 
+  web:
+    image: nginx:1.20-alpine
     ports:
-        - 8080:80 
-    volumes: 
-        - ./backend:/work 
-        - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf 
+      - 8080:80
+    volumes:
+      - ./backend:/work
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
     working_dir: /work
 
-  db: 
+  db:
     build: ./infra/mysql
+    ports:
+      - 8000:3306
     volumes:
-        - db-store:/var/lib/mysql
-    
+      - db-store:/var/lib/mysql
+
 volumes:
   db-store:
