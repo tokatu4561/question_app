@@ -1,9 +1,22 @@
 import { NavLink } from "react-router-dom";
 
-export const Navigation = () => {
+type props = {
+    onClickShow: () => void;
+};
+
+export const Navigation = (props: props) => {
     return (
         <header className="flex p-8 justify-between h-12 items-center bg-teal-500">
-            <div className="text-white text-4xl">TODO APP</div>
+            <div className="">
+                <button
+                    onClick={props.onClickShow}
+                    className="relative h-5 w-6"
+                >
+                    <span className="top-0 w-6 h-1 inline-block transition-all absolute right-0 bg-black"></span>
+                    <span className="top-0 w-6 h-1 inline-block transition-all absolute right-0 bg-black"></span>
+                    <span className="top-0 w-6 h-1 inline-block transition-all absolute right-0 bg-black"></span>
+                </button>
+            </div>
             <nav>
                 <ul className="flex p-0 m-0 list-none">
                     <li className="ml-4 text-2xl">
@@ -18,19 +31,10 @@ export const Navigation = () => {
                     <li className="ml-4 text-2xl">
                         <NavLink
                             className="text-teal-200"
-                            to="/todos"
+                            to="/tasks"
                             activeClassName="text-teal-100"
                         >
                             　Todo一覧
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            className="text-teal-200"
-                            to="/new-todo"
-                            activeClassName="text-teal-100"
-                        >
-                            Todoを追加
                         </NavLink>
                     </li>
                 </ul>

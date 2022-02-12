@@ -17,6 +17,7 @@
 
 <body>
     <div id="root"></div>
+    <div id="overlays"></div>
 </body>
 
 </html>
