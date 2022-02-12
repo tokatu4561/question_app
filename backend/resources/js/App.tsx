@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import axios from "../../node_modules/axios/index";
+
 import { Layout } from "./components/Layout/Layout";
 import { LoginPage } from "./pages/Auth/LoginPage";
-import { TaskPage } from "./pages/todos/index";
+import { NotFound } from "./pages/NotFound";
+import { AllTasks } from "./pages/tasks/AllTasks";
 
 // import { Cart } from "./components/Cart/Cart";
 // import { Header } from "./components/Layout/Header";
@@ -26,17 +29,31 @@ export const App = () => {
         setIsShowCart(false);
     };
 
+    useEffect(() => {
+        axios
+            .post("login", {
+                email: "test@test.com",
+                password: "test1234",
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    }, []);
+
     return (
         <Layout>
             <Switch>
-                <Route path="/about">
-                    <About />
-                </Route>
                 <Route path="/login">
                     <LoginPage />
                 </Route>
-                <Route path="/">
-                    <TaskPage></TaskPage>
+                <Route path="/todos" exact>
+                    <AllTasks />
+                </Route>
+                <Route path="*">
+                    <NotFound />
                 </Route>
             </Switch>
         </Layout>
