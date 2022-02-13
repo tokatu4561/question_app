@@ -1,5 +1,10 @@
 import { ChangeEvent, useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { login } from "../../api/auth-api";
+
+import useHttp from "../../hooks/use-http";
 import { AuthContext } from "../../store/auth-context";
+import { LoadingSpinner } from "../UI/LoadingSpinner";
 
 export const AuthForm = () => {
     const authCtx = useContext(AuthContext);
@@ -15,8 +20,38 @@ export const AuthForm = () => {
 
     const submitLoginForm = (e) => {
         e.preventDefault();
-        authCtx.onLogin(enteredEmail, enteredPassword);
+        sendRequest({ email: enteredEmail, password: enteredPassword });
     };
+
+    const {
+        sendRequest,
+        status,
+        data: loadedUser,
+        error,
+    } = useHttp(login, false);
+
+    if (status == "pending") {
+        return (
+            <div className="centered">
+                <LoadingSpinner />
+            </div>
+        );
+    }
+
+    if (error === 401) {
+        return (
+            <div>
+                <p className="font-bold text-center text-size-2xl">
+                    ユーザーが存在しないか、パスワードかメールアドレスが間違っています
+                </p>
+                <Link to="/tasks">もう一度試す</Link>
+            </div>
+        );
+    }
+
+    if (loadedUser) {
+        authCtx.onLogin();
+    }
 
     return (
         <section className="my-12 mx-auto p-4 w-11/12 max-w-xl rounded bg-teal-500 text-center shadow">

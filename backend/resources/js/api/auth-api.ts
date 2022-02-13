@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import axios from "../../../node_modules/axios/index";
+import { AuthContext } from "../store/auth-context";
 import { User } from "../types/user";
 
 export const getUser = async () => {
@@ -6,13 +8,13 @@ export const getUser = async () => {
     return data;
 };
 
-export const login = async (email: string, password: string) => {
-    const { data } = await axios.post<User>("/login", { email, password });
+export const login = async (authData: { email: string; password: string }) => {
+    const { data } = await axios.post<User>("login", authData);
 
     return data;
 };
 
-export const loout = async () => {
+export const logout = async () => {
     const { data } = await axios.post("logout");
 
     return data;
