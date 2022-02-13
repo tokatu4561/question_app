@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
     /**
-     * Task一覧
+     * Task一覧を取得
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
         //
-        return Task::all();
+        return Task::where('user_id', Auth::id())->orderByDesc('id')->get();
     }
 
     /**
@@ -39,7 +40,8 @@ class TaskController extends Controller
     {
         $task = new Task();
 
-        $task->title = $request->title;
+        $task->title   = $request->title;
+        $task->user_id = Auth::id();
 
         $task->save();
 
