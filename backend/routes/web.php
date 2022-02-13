@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,11 @@ Route::post('logout', 'LoginController@logout');
 
 Route::get('/{path?}', function () {
     return view('welcome');
+});
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/api/user', function () {
+        return Auth::user();
+    });
+    Route::apiResource('/api/tasks', 'TaskController');
 });
