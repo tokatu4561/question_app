@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import axios from "../../node_modules/axios/index";
+import React, { useState, useEffect, useContext } from "react";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect,
+} from "react-router-dom";
 
 import { Layout } from "./components/Layout/Layout";
 import { LoginPage } from "./pages/Auth/LoginPage";
 import { NotFound } from "./pages/NotFound";
 import { AllTasks } from "./pages/tasks/AllTasks";
+import { AuthContext } from "./store/auth-context";
 
 // import { Cart } from "./components/Cart/Cart";
 // import { Header } from "./components/Layout/Header";
@@ -19,37 +25,17 @@ import { AllTasks } from "./pages/tasks/AllTasks";
 // import { CartProvider } from "./store/CartProvider";
 
 export const App = () => {
-    const [isShowCart, setIsShowCart] = useState(false);
-
-    const showCartHandler = () => {
-        setIsShowCart(true);
-    };
-
-    const hideCartHandler = () => {
-        setIsShowCart(false);
-    };
-
-    useEffect(() => {
-        axios
-            .post("login", {
-                email: "test@test.com",
-                password: "test1234",
-            })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
-    }, []);
+    const ctx = useContext(AuthContext);
 
     return (
         <Layout>
             <Switch>
                 <Route path="/login">
+                    {ctx.isLoggedIn && <Redirect to="/tasks" />}
                     <LoginPage />
                 </Route>
-                <Route path="/todos" exact>
+                {!ctx.isLoggedIn && <Redirect to="/login" />}
+                <Route path="/tasks">
                     <AllTasks />
                 </Route>
                 <Route path="*">
