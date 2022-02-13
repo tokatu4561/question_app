@@ -68,6 +68,7 @@ export const AuthForm = () => {
                         id="email"
                         value={enteredEmail}
                         onChange={changeEmailHandler}
+                        className="p-2 rounded"
                         required
                     />
                 </div>
@@ -81,6 +82,7 @@ export const AuthForm = () => {
                     <input
                         type="password"
                         id="password"
+                        className="p-2 rounded"
                         value={enteredPassword}
                         onChange={changePasswordHandler}
                         required
@@ -88,16 +90,10 @@ export const AuthForm = () => {
                 </div>
                 <div className="mt-3 flex flex-col items-center">
                     <button
-                        type="submit"
-                        className="bg-teal-300  hover:bg-teal-200 text-white font-bold py-2 px-4 border-b-4 border-teal-600 hover:border-teal-300 rounded"
-                    >
-                        　ログイン
-                    </button>
-                    <button
                         type="button"
                         className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                     >
-                        アカウントを作成
+                        ログイン
                     </button>
                 </div>
             </form>
