@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TaskTheme;
 use Illuminate\Database\Seeder;
 
 class TaskThemeSeeder extends Seeder
@@ -13,6 +14,6 @@ class TaskThemeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        TaskTheme::factory(3)->create();
     }
 }

@@ -15,6 +15,8 @@ class CreateTaskThemesTable extends Migration
     {
         Schema::create('task_themes', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+
             $table->timestamps();
         });
     }
