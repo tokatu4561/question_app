@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { TaskType } from "../../types/task";
 
-export const Task = (props: TaskType & { onChange }) => {
+export const Task = (props: TaskType & { onChangeIsDone }) => {
     return (
         <li className="m-4 p-4 flex justify-between items-end bg-teal-200 shadow rounded">
             <figure className="m-0 p-0 w-10/12">
@@ -16,6 +16,9 @@ export const Task = (props: TaskType & { onChange }) => {
                 id={`check-box${props.id}`}
                 className="check-box"
                 type="checkbox"
+                onChange={function () {
+                    props.onChangeIsDone(props.id);
+                }}
                 checked={props.isDone}
             />
             <label htmlFor={`check-box${props.id}`}></label>
