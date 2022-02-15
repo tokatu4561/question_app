@@ -13,12 +13,19 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
+        Schema::create('task_themes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('name');
+
+            $table->timestamps();
+        });
+
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('is_done')->default(false);
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('task_theme_id')->constrained();
+            $table->foreignId('task_theme_id')->constrained('task_themes');
 
             $table->softDeletes();
 
@@ -33,6 +40,7 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('task_themes');
         Schema::dropIfExists('tasks');
     }
 }

@@ -15,6 +15,7 @@ class TaskThemeFactory extends Factory
     {
         return [
             'name' => $this->faker->text(10),
+            'user_id' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -16,8 +16,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
-        return Task::where('user_id', Auth::id())->orderByDesc('id')->get();
+        return Task::orderByDesc('id')->get();
     }
 
     /**
@@ -94,8 +93,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $task->delete();
+        $isSuccess = $task->onlyTrashed()->forceDelete();
 
-        return $task ? response()->json($task, 200) : response()->json([], 500);
+        return $isSuccess ? response()->json([], 200) : response()->json([], 500);
     }
 }
