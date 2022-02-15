@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskThemeRequest;
 use App\Http\Requests\UpdateTaskThemeRequest;
 use App\Models\TaskTheme;
+use Illuminate\Support\Facades\Auth;
 
 class TaskThemeController extends Controller
 {
@@ -15,7 +16,7 @@ class TaskThemeController extends Controller
      */
     public function index()
     {
-        //
+        return TaskTheme::where('user_id', Auth::id())->orderByDesc('id')->get();
     }
 
     /**

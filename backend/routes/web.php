@@ -26,4 +26,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         return Auth::user();
     });
     Route::apiResource('/api/tasks', 'TaskController');
+    Route::apiResource('/api/themes', 'TaskThemeController');
 });
