@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import { AuthContext } from "../../store/auth-context";
+import { TaskThemeContext } from "../../store/task-theme-context";
 
 const Backdrop = (props) => {
     const cssClasses = [
@@ -15,7 +16,9 @@ const Backdrop = (props) => {
 const portalElement = document.getElementById("overlays");
 
 const SideBarOverlay = (props) => {
-    const ctx = useContext(AuthContext);
+    const authCtx = useContext(AuthContext);
+
+    const taskThemeCtx = useContext(TaskThemeContext);
 
     const cssClasses = [
         "fixed top-0 left-0 z-20 transition-all duration-300",
@@ -50,22 +53,26 @@ const SideBarOverlay = (props) => {
                             </NavLink>
                             <button
                                 className="hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200  text-gray-600 dark:text-gray-400 rounded-lg "
-                                onClick={ctx.onLogout}
+                                onClick={authCtx.onLogout}
                             >
                                 <span className="mx-4 text-lg font-normal">
                                     ログアウト
                                 </span>
                                 <span className="flex-grow text-right"></span>
                             </button>
-                            <a
-                                className="hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200  text-gray-600 dark:text-gray-400 rounded-lg "
-                                href="#"
-                            >
-                                <span className="mx-4 text-lg font-normal">
-                                    Navigation
-                                </span>
-                                <span className="flex-grow text-right"></span>
-                            </a>
+                            {taskThemeCtx.items.map((theme) => (
+                                <NavLink
+                                    className="hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200  text-gray-600 dark:text-gray-400 rounded-lg"
+                                    to={`/themes/${theme.id}`}
+                                    key={theme.id}
+                                    activeClassName="bg-gray-100 dark:bg-gray-600"
+                                >
+                                    <span className="mx-4 text-lg font-normal">
+                                        {theme.name}
+                                    </span>
+                                    <span className="flex-grow text-right"></span>
+                                </NavLink>
+                            ))}
                         </nav>
                     </div>
                 </div>
