@@ -1,14 +1,13 @@
-// 全てのタスクのリスト(テーマ)を取得
+import axios from "../../../node_modules/axios/index";
+
+// 指定したテーマ内の全てのタスクを取得
 export async function getAllTasks(taskThemeId) {
-    const params = { taskThemeId: taskThemeId };
-    const query = new URLSearchParams(params);
+    const response = await axios.get(`/api/tasks?theme=${taskThemeId}`);
+    const data = await response.data;
 
-    const response = await fetch(`api/tasks?${query}`);
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.message || "タスクがありません");
-    }
+    // if (!response.ok) {
+    //     throw new Error(data.message || "タスクがありません");
+    // }
 
     return data;
 }

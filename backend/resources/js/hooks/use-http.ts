@@ -44,9 +44,7 @@ function useHttp(requestFunction, startWithPending = false) {
             } catch (error) {
                 dispatch({
                     type: "ERROR",
-                    error:
-                        error.response.status ||
-                        "エラーです、もう一度試してください",
+                    error: error || "エラーです、もう一度試してください",
                 });
             }
         },

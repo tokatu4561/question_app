@@ -1,22 +1,26 @@
 import { useEffect } from "react";
+import { Link, Route, useParams } from "react-router-dom";
 
 import { TaskList } from "../../components/Tasks/TaskList";
 import { LoadingSpinner } from "../../components/UI/LoadingSpinner";
 import useHttp from "../../hooks/use-http";
-import { getAllTodos } from "../../api/api";
+import { getAllTasks } from "../../api/task-api";
 import { NoTasksFound } from "../../components/Tasks/NoTasksFound";
+import { NewTaskForm } from "../../components/Tasks/NewTaskForm";
 
 export const AllTasks = () => {
+    const taskThemeId = useParams<{ taskThemeId: string }>().taskThemeId;
+
     const {
         sendRequest,
         status,
         data: loadedTodo,
         error,
-    } = useHttp(getAllTodos, true);
+    } = useHttp(getAllTasks, true);
 
     useEffect(() => {
-        sendRequest();
-    }, [sendRequest]);
+        sendRequest(taskThemeId);
+    }, [sendRequest, taskThemeId]);
 
     if (status == "pending") {
         return (
@@ -34,5 +38,22 @@ export const AllTasks = () => {
         return <NoTasksFound />;
     }
 
-    return <TaskList todos={loadedTodo}></TaskList>;
+    return (
+        <>
+            <TaskList todos={loadedTodo}></TaskList>
+            <Route path="/tasks" exact>
+                <div className="centerd">
+                    <Link className="btn--flat" to="/tasks/new-task">
+                        やることを追加
+                    </Link>
+                </div>
+            </Route>
+            <Route path="/tasks/new-task">
+                <NewTaskForm></NewTaskForm>
+                <Link className="btn--flat" to="/tasks">
+                    閉じる
+                </Link>
+            </Route>
+        </>
+    );
 };
