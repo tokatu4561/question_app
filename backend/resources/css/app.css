@@ -21,9 +21,9 @@
     letter-spacing: 10px !important;
 } /* space between checkbox and label */
 
-.check-box:checked + label:before {
+.check-box:hover + label:before {
     content: "\f046" !important;
 } /* checked icon */
-.check-box:checked + label:before {
+.check-box:hover + label:before {
     letter-spacing: 5px !important;
 } /* allow space for check mark */
