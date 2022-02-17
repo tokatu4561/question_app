@@ -17,4 +17,10 @@ class Task extends Model
     protected $casts = [
         'is_done' => 'bool', 'user_id' => 'int'
     ];
+
+    protected $primaryKey = 'id';
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 }

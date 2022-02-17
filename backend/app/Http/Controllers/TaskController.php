@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
@@ -14,9 +15,17 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Task::orderByDesc('id')->get();
+        $taskQuery = Task::query();
+
+        if ($request->filled('theme')) {
+            $taskQuery->where('task_theme_id', $request->theme);
+        }
+
+        $tasks = $taskQuery->orderByDesc('id')->get();
+
+        return $tasks;
     }
 
     /**
@@ -30,17 +39,18 @@ class TaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * タスクの新規追加
      *
      * @param  \App\Http\Requests\StoreTaskRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreTaskRequest $request)
     {
         $task = new Task();
 
-        $task->title   = $request->title;
-        $task->user_id = Auth::id();
+        $task->id            = $request->id;
+        $task->title         = $request->title;
+        $task->task_theme_id = $request->themeId;
 
         $task->save();
 

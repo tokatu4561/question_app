@@ -14,8 +14,8 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
+            'id'   => $this->faker->text(30),
             'title' => $this->faker->realText(rand(15, 20)),
-            'is_done' => $this->faker->boolean(10),
             'task_theme_id' => rand(1, 3),
             'created_at' => now(),
             'updated_at' => now(),

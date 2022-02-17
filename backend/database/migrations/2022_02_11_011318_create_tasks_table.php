@@ -22,9 +22,8 @@ class CreateTasksTable extends Migration
         });
 
         Schema::create('tasks', function (Blueprint $table) {
-            $table->id();
+            $table->string('id', 40)->primary();
             $table->string('title');
-            $table->string('is_done')->default(false);
             $table->foreignId('task_theme_id')->constrained('task_themes');
 
             $table->softDeletes();
