@@ -12,20 +12,33 @@ export async function getAllTasks(taskThemeId) {
     return data;
 }
 
-// //タスクを追加する
-// export async function addTask(taskData) {
-//     const response = await fetch("/api/tasks", {
-//         method: "POST",
-//         body: { title: taskData.title },
-//     });
-//     const data = await response.json();
+//タスクを追加する
+export async function addTask(taskData) {
+    const response = await axios.post("/api/tasks", {
+        id: taskData.taskId,
+        title: taskData.title,
+        themeId: taskData.themeId,
+    });
+    const data = await response.data;
 
-//     if (!response.ok) {
-//         throw new Error(data.message || "Could not create quote.");
-//     }
+    // if (!response.ok) {
+    //     throw new Error(data.message || "Could not create quote.");
+    // }
 
-//     return null;
-// }
+    return null;
+}
+
+//タスクを削除する(ソフトデリート)
+export async function softDeleteTask(taskId: number) {
+    const response = await axios.delete(`/api/tasks/${taskId}`);
+    const data = await response.data;
+
+    // if (!response.ok) {
+    //     throw new Error(data.message || "Could not create quote.");
+    // }
+
+    return null;
+}
 
 // //タスクの更新(実施済みにする)
 // export async function updateDoneTask(taskData) {

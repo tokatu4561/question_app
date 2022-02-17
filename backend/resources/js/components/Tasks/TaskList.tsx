@@ -1,6 +1,11 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router";
+
+import { addTask } from "../../api/task-api";
+import useHttp from "../../hooks/use-http";
+import { NewTaskForm } from "./NewTaskForm";
 import { Task } from "./Task";
+import { v4 as uuid } from "uuid";
 
 const sortTodos = (tasks, ascending) => {
     return tasks.sort((taskA, taskB) => {
@@ -12,13 +17,22 @@ const sortTodos = (tasks, ascending) => {
     });
 };
 
+type props = {
+    tasks: [];
+    themeId: string;
+};
+
 export const TaskList = (props) => {
-    const [tasks, setTasks] = useState(props.todos);
+    const [isShowTaskForm, setIsShowTaskForm] = useState(false);
+
+    const [tasks, setTasks] = useState(props.tasks);
+
+    const { sendRequest, status, error } = useHttp(addTask, false);
+
     const history = useHistory();
     const location = useLocation();
 
     const queryPrams = new URLSearchParams(location.search);
-
     //タスクの昇順、降順切り替え
     const isSortingAsc = queryPrams.get("sort") === "asc";
 
@@ -28,31 +42,49 @@ export const TaskList = (props) => {
         });
     }, [isSortingAsc]);
 
-    const changeSortingHandler = () => {
+    const changeSortingHandler = useCallback(() => {
         history.push({
             pathname: location.pathname,
             search: `?sort=${isSortingAsc ? "desc" : "asc"}`,
         });
-    };
+    }, [location, isSortingAsc]);
 
     // タスクの実施済みチェックを切り替える
     const changeTaskIsDone = (id: number) => {
+        // setTasks();
+    };
+
+    //新規タスク追加フォームの切り替え
+    const startAddTaskHandler = () => {
+        setIsShowTaskForm(true);
+    };
+    const endAddTaskHandler = () => {
+        setIsShowTaskForm(false);
+    };
+
+    //新規タスクを追加
+    const addNewTask = (title: string, themeId: string) => {
+        const taskId = uuid();
+        sendRequest({ taskId, title, themeId });
+
         setTasks((currentTasks) => {
-            //状態が変化した(実施済み、もしくは未実施になった)タスクを取得する
-            const targetTaskIndex = currentTasks.findIndex(
-                (task) => task.id === id
-            );
-            const targetTask = currentTasks[targetTaskIndex];
-
-            const updatedTasks = [...currentTasks];
-            const updatedTask = {
-                ...targetTask,
-                is_done: !targetTask.is_done,
-            };
-
-            updatedTasks[targetTaskIndex] = updatedTask;
-            return updatedTasks;
+            return [
+                ...currentTasks,
+                {
+                    id: taskId,
+                    title: title,
+                    themeId: themeId,
+                },
+            ];
         });
+    };
+
+    const deleteTask = () => {
+        const deleteTaskIds = tasks.map((task) => {
+            return task.isDone && task.id;
+        });
+
+        console.log(deleteTaskIds);
     };
 
     return (
@@ -66,16 +98,31 @@ export const TaskList = (props) => {
                 </button>
             </div>
             <ul className="list-none m-0 p-0">
-                {tasks.map((task) => (
-                    <Task
-                        key={task.id}
-                        id={task.id}
-                        title={task.title}
-                        isDone={task.is_done}
-                        onChangeIsDone={changeTaskIsDone}
-                    />
-                ))}
+                {tasks.length > 0 &&
+                    tasks.map((task) => (
+                        <Task
+                            key={task.id}
+                            id={task.id}
+                            title={task.title}
+                            onChangeIsDone={changeTaskIsDone}
+                        />
+                    ))}
             </ul>
+            {!isShowTaskForm && (
+                <button className="btn" onClick={startAddTaskHandler}>
+                    やることを追加
+                </button>
+            )}
+            {isShowTaskForm && (
+                <>
+                    <NewTaskForm
+                        themeId={props.themeId}
+                        onAddTask={addNewTask}
+                        isLoading={status == "pending"}
+                    ></NewTaskForm>
+                    <button onClick={endAddTaskHandler}>閉じる</button>
+                </>
+            )}
         </Fragment>
     );
 };
