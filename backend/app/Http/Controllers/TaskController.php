@@ -29,16 +29,6 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * タスクの新規追加
      *
      * @param  \App\Http\Requests\StoreTaskRequest  $request
@@ -55,17 +45,6 @@ class TaskController extends Controller
         $task->save();
 
         return $task ? response()->json($task, 201) : response()->json([], 500);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Task $task)
-    {
-        //
     }
 
     /**
@@ -103,7 +82,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $isSuccess = $task->onlyTrashed()->forceDelete();
+        $isSuccess = $task->delete();
 
         return $isSuccess ? response()->json([], 200) : response()->json([], 500);
     }

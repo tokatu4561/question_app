@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'LoginController@login');
 Route::post('logout', 'LoginController@logout');
 
-Route::get('/{path?}', function () {
-    return view('welcome');
-});
-
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/api/user', function () {
         return Auth::user();
@@ -28,3 +24,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/api/tasks', 'TaskController');
     Route::apiResource('/api/themes', 'TaskThemeController');
 });
+
+Route::get('/{any?}', function () {
+    return view('welcome');
+})->where('any', '.*');

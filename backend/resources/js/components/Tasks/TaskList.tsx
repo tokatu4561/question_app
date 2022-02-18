@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router";
 
-import { addTask } from "../../api/task-api";
+import { addTask, softDeleteTask } from "../../api/task-api";
 import useHttp from "../../hooks/use-http";
 import { NewTaskForm } from "./NewTaskForm";
 import { Task } from "./Task";
@@ -27,7 +27,10 @@ export const TaskList = (props) => {
 
     const [tasks, setTasks] = useState(props.tasks);
 
-    const { sendRequest, status, error } = useHttp(addTask, false);
+    //タスク新規追加のAPI
+    const { sendRequest: addRequest, status, error } = useHttp(addTask, false);
+    //タスク削除のAPI(ソフトデリート)
+    const { sendRequest: deleteRequest } = useHttp(softDeleteTask, false);
 
     const history = useHistory();
     const location = useLocation();
@@ -49,11 +52,6 @@ export const TaskList = (props) => {
         });
     }, [location, isSortingAsc]);
 
-    // タスクの実施済みチェックを切り替える
-    const changeTaskIsDone = (id: number) => {
-        // setTasks();
-    };
-
     //新規タスク追加フォームの切り替え
     const startAddTaskHandler = () => {
         setIsShowTaskForm(true);
@@ -65,7 +63,7 @@ export const TaskList = (props) => {
     //新規タスクを追加
     const addNewTask = (title: string, themeId: string) => {
         const taskId = uuid();
-        sendRequest({ taskId, title, themeId });
+        addRequest({ taskId, title, themeId });
 
         setTasks((currentTasks) => {
             return [
@@ -79,12 +77,14 @@ export const TaskList = (props) => {
         });
     };
 
-    const deleteTask = () => {
-        const deleteTaskIds = tasks.map((task) => {
-            return task.isDone && task.id;
-        });
+    // 実施済みフラグがついたタスクを削除する
+    const deleteIsDoneTask = (id: string) => {
+        deleteRequest(id);
 
-        console.log(deleteTaskIds);
+        setTasks((currentTasks) => {
+            const updatedTasks = currentTasks.filter((task) => task.id !== id);
+            return [...updatedTasks];
+        });
     };
 
     return (
@@ -104,7 +104,8 @@ export const TaskList = (props) => {
                             key={task.id}
                             id={task.id}
                             title={task.title}
-                            onChangeIsDone={changeTaskIsDone}
+                            themeId={task.themeId}
+                            onChangeTaskDelete={deleteIsDoneTask}
                         />
                     ))}
             </ul>

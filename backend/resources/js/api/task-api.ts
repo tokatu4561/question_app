@@ -29,7 +29,7 @@ export async function addTask(taskData) {
 }
 
 //タスクを削除する(ソフトデリート)
-export async function softDeleteTask(taskId: number) {
+export async function softDeleteTask(taskId: string) {
     const response = await axios.delete(`/api/tasks/${taskId}`);
     const data = await response.data;
 

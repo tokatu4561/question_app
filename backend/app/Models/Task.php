@@ -11,11 +11,11 @@ class Task extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillacle = [
-        'title', 'is_done', 'user_id'
+        'title', 'task_theme_id'
     ];
 
     protected $casts = [
-        'is_done' => 'bool', 'user_id' => 'int'
+        'task_theme_id' => 'int'
     ];
 
     protected $primaryKey = 'id';
