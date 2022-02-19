@@ -1,13 +1,16 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { login } from "../../api/auth-api";
+import axios from "../../../../node_modules/axios/index";
 
-import useHttp from "../../hooks/use-http";
-import { AuthContext } from "../../store/auth-context";
+import { login } from "../../api/auth-api";
+import { useAuthUser } from "../../hooks/use-auth-user";
+import { User } from "../../types/user";
+
 import { LoadingSpinner } from "../UI/LoadingSpinner";
 
 export const AuthForm = () => {
-    const authCtx = useContext(AuthContext);
+    const { authUser, onLogin } = useAuthUser();
+
     const [enteredEmail, setEnterdEmail] = useState<string>("");
     const [enteredPassword, setEnterdPassword] = useState<string>("");
 
@@ -20,35 +23,18 @@ export const AuthForm = () => {
 
     const submitLoginForm = async (e) => {
         e.preventDefault();
-        await sendRequest({ email: enteredEmail, password: enteredPassword });
+        const authData = { email: enteredEmail, password: enteredPassword };
+        const { data } = await axios.post<User>("/login", authData);
 
-        if (loadedUser) {
-            await authCtx.onLogin(loadedUser);
+        if (data) {
+            onLogin(data);
         }
     };
-
-    const {
-        sendRequest,
-        status,
-        data: loadedUser,
-        error,
-    } = useHttp(login, false);
 
     if (status == "pending") {
         return (
             <div className="centered">
                 <LoadingSpinner />
-            </div>
-        );
-    }
-
-    if (error === 401) {
-        return (
-            <div>
-                <p className="font-bold text-center text-size-2xl">
-                    ユーザーが存在しないか、パスワードかメールアドレスが間違っています
-                </p>
-                <Link to="/tasks">もう一度試す</Link>
             </div>
         );
     }

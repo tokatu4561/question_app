@@ -16,30 +16,24 @@ import { AllTasks } from "./pages/AllTasks";
 import useHttp from "./hooks/use-http";
 import { AllTrashTasks } from "./pages/AllTrashTasks";
 import { useAuthUser } from "./hooks/use-auth-user";
+import { User } from "./types/user";
+import axios from "../../node_modules/axios/index";
 
 export const App = () => {
-    const { sendRequest, data: loadedUser, status, error } = useHttp(getUser);
+    // const { sendRequest, data: loadedUser, status, error } = useHttp(getUser);
     const { authUser, onLogin } = useAuthUser();
 
     //すでにサーバー側でログイン済みの場合はログインした状態にする
     useEffect(() => {
-        let isUnmounted = false;
-
-        if (!isUnmounted) {
-            const login = async () => {
-                await sendRequest();
-                if (loadedUser) {
-                    await onLogin(loadedUser);
-                }
-            };
-
-            login();
-        }
-
-        return () => {
-            isUnmounted = true;
+        const login = async () => {
+            const { data } = await axios.get<User>("/api/user");
+            if (data) {
+                onLogin(data);
+            }
         };
-    }, [sendRequest, onLogin]);
+
+        login();
+    }, [onLogin]);
 
     return (
         <Layout>
@@ -50,7 +44,7 @@ export const App = () => {
                         {authUser && <Redirect to="/themes/1" />}
                         <LoginPage />
                     </Route>
-                    {authUser && <Redirect to="/login" />}
+                    {!authUser && <Redirect to="/login" />}
                     <Route path="/themes/:taskThemeId">
                         <AllTasks />
                     </Route>
