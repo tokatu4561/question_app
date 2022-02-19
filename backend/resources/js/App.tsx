@@ -12,38 +12,40 @@ import { Layout } from "./components/Layout/Layout";
 import { LoadingSpinner } from "./components/UI/LoadingSpinner";
 import { LoginPage } from "./pages/Auth/LoginPage";
 import { NotFound } from "./pages/NotFound";
-import { AllTasks } from "./pages/tasks/AllTasks";
+import { AllTasks } from "./pages/AllTasks";
 import { AuthContext } from "./store/auth-context";
+import useHttp from "./hooks/use-http";
+import { AllTrashTasks } from "./pages/AllTrashTasks";
 
 export const App = () => {
-    const [isLoading, setIsLoading] = useState(false);
     const ctx = useContext(AuthContext);
 
-    useEffect(() => {
-        setIsLoading(true);
-        const login = async () => {
-            const user = await getUser();
-            if (user) {
-                ctx.onLogin();
-            }
-            setIsLoading(false);
-        };
+    const { sendRequest, status, error } = useHttp(getUser);
 
-        login();
+    //すでにサーバー側でログイン済みの場合はログインした状態にする
+    useEffect(() => {
+        sendRequest();
     }, []);
+
+    if (!error) {
+        ctx.onLogin();
+    }
 
     return (
         <Layout>
-            {isLoading && <LoadingSpinner />}
-            {!isLoading && (
+            {status === "pending" && <LoadingSpinner />}
+            {!(status === "pending") && (
                 <Switch>
                     <Route path="/login">
-                        {ctx.isLoggedIn && <Redirect to="/tasks" />}
+                        {ctx.isLoggedIn && <Redirect to="/themes/1" />}
                         <LoginPage />
                     </Route>
                     {!ctx.isLoggedIn && <Redirect to="/login" />}
-                    <Route path="/tasks">
+                    <Route path="/themes/:taskThemeId">
                         <AllTasks />
+                    </Route>
+                    <Route path="/trash">
+                        <AllTrashTasks />
                     </Route>
                     <Route path="*">
                         <NotFound />
