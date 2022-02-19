@@ -12,11 +12,13 @@ class TaskThemeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return TaskTheme::where('user_id', Auth::id())->orderByDesc('id')->get();
+        $tasks = TaskTheme::where('user_id', Auth::id())->orderByDesc('id')->get();
+
+        return response()->json($tasks, 200);
     }
 
     /**
