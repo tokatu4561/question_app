@@ -75,7 +75,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * タスクを削除する(ソフトデリート)
      *
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\JsonResponse
@@ -83,6 +83,29 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $isSuccess = $task->delete();
+
+        return $isSuccess ? response()->json([], 200) : response()->json([], 500);
+    }
+
+    /**
+     *　削除済みの(ソフトデリートされた)タスクを表示する
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function showDeletedTask()
+    {
+        $deletedTasks = Task::onlyTrashed()->get();
+
+        return $deletedTasks;
+    }
+
+    /**
+     * タスクを削除する(ソフトデリート)
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteTasks()
+    {
+        $isSuccess = Task::onlyTrashed()->forceDelete();
 
         return $isSuccess ? response()->json([], 200) : response()->json([], 500);
     }

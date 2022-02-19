@@ -1,8 +1,8 @@
 import { TaskType } from "../../types/task";
 
-type props = TaskType & { onClickTaskDelete: (id: string) => void };
+// type props = TaskType & { onClickTaskDelete: (id: string) => void };
 
-export const DeletedTask = (props: props) => {
+export const DeletedTask = (props) => {
     const onClickHandler = (id: string) => {
         if (window.confirm("削除しますか")) {
             props.onClickTaskDelete(id);

@@ -4,6 +4,7 @@ import { getDeletedTasks } from "../api/task-api";
 import { DeletedTaskList } from "../components/Tasks/DeletedTaskList";
 
 import { NoTasksFound } from "../components/Tasks/NoTasksFound";
+import { LoadingSpinner } from "../components/UI/LoadingSpinner";
 
 import useHttp from "../hooks/use-http";
 
@@ -17,7 +18,7 @@ export const AllTrashTasks = () => {
 
     useEffect(() => {
         sendRequest();
-    }, []);
+    }, [sendRequest]);
 
     if (error) {
         return <p className="centerd focused">{error}</p>;
@@ -27,7 +28,9 @@ export const AllTrashTasks = () => {
         return <NoTasksFound />;
     }
 
-    console.log(loadedTask);
+    if (status === "pending") {
+        return <LoadingSpinner />;
+    }
 
     return (
         <>
