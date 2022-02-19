@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { login } from "../../api/auth-api";
 
@@ -18,9 +18,13 @@ export const AuthForm = () => {
         setEnterdPassword(e.target.value);
     };
 
-    const submitLoginForm = (e) => {
+    const submitLoginForm = async (e) => {
         e.preventDefault();
-        sendRequest({ email: enteredEmail, password: enteredPassword });
+        await sendRequest({ email: enteredEmail, password: enteredPassword });
+
+        if (loadedUser) {
+            await authCtx.onLogin(loadedUser);
+        }
     };
 
     const {
@@ -47,10 +51,6 @@ export const AuthForm = () => {
                 <Link to="/tasks">もう一度試す</Link>
             </div>
         );
-    }
-
-    if (loadedUser) {
-        authCtx.onLogin();
     }
 
     return (
@@ -90,7 +90,7 @@ export const AuthForm = () => {
                 </div>
                 <div className="mt-3 flex flex-col items-center">
                     <button
-                        type="button"
+                        type="submit"
                         className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                     >
                         ログイン

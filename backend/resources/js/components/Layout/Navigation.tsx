@@ -1,14 +1,12 @@
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-
-import { AuthContext } from "../../store/auth-context";
+import { useAuthUser } from "../../hooks/use-auth-user";
 
 type props = {
     onClickShow: () => void;
 };
 
 export const Navigation = (props: props) => {
-    const ctx = useContext(AuthContext);
+    const { authUser } = useAuthUser();
 
     return (
         <header className="flex p-8 justify-between h-12 items-center bg-teal-500">
@@ -24,7 +22,7 @@ export const Navigation = (props: props) => {
             </div>
             <nav>
                 <ul className="flex p-0 m-0 list-none">
-                    {ctx.isLoggedIn && (
+                    {authUser && (
                         <li className="ml-4 text-2xl">
                             <NavLink
                                 className="text-teal-200"

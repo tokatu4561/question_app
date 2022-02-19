@@ -1,28 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import { AuthContext } from "./auth-context";
 
 import { logout } from "../api/auth-api";
+import { User } from "../types/user";
 
-export const AuthContextProvider = (props) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+export const AuthContextProvider = (props: { children: ReactNode }) => {
+    const [authUser, setAuthUser] = useState<User | null>(null);
 
-    const logoutHandler = () => {
+    const onLogout = () => {
         logout();
-        setIsLoggedIn(false);
+        setAuthUser(null);
     };
 
-    const loginHandler = () => {
-        setIsLoggedIn(true);
+    const onLogin = (user) => {
+        setAuthUser(user);
     };
 
     return (
-        <AuthContext.Provider
-            value={{
-                isLoggedIn: isLoggedIn,
-                onLogout: logoutHandler,
-                onLogin: loginHandler,
-            }}
-        >
+        <AuthContext.Provider value={{ authUser, onLogin, onLogout }}>
             {props.children}
         </AuthContext.Provider>
     );

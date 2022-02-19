@@ -13,23 +13,33 @@ import { LoadingSpinner } from "./components/UI/LoadingSpinner";
 import { LoginPage } from "./pages/Auth/LoginPage";
 import { NotFound } from "./pages/NotFound";
 import { AllTasks } from "./pages/AllTasks";
-import { AuthContext } from "./store/auth-context";
 import useHttp from "./hooks/use-http";
 import { AllTrashTasks } from "./pages/AllTrashTasks";
+import { useAuthUser } from "./hooks/use-auth-user";
 
 export const App = () => {
-    const ctx = useContext(AuthContext);
-
-    const { sendRequest, status, error } = useHttp(getUser);
+    const { sendRequest, data: loadedUser, status, error } = useHttp(getUser);
+    const { authUser, onLogin } = useAuthUser();
 
     //すでにサーバー側でログイン済みの場合はログインした状態にする
     useEffect(() => {
-        sendRequest();
-    }, []);
+        let isUnmounted = false;
 
-    if (!error) {
-        ctx.onLogin();
-    }
+        if (!isUnmounted) {
+            const login = async () => {
+                await sendRequest();
+                if (loadedUser) {
+                    await onLogin(loadedUser);
+                }
+            };
+
+            login();
+        }
+
+        return () => {
+            isUnmounted = true;
+        };
+    }, [sendRequest, onLogin]);
 
     return (
         <Layout>
@@ -37,10 +47,10 @@ export const App = () => {
             {!(status === "pending") && (
                 <Switch>
                     <Route path="/login">
-                        {ctx.isLoggedIn && <Redirect to="/themes/1" />}
+                        {authUser && <Redirect to="/themes/1" />}
                         <LoginPage />
                     </Route>
-                    {!ctx.isLoggedIn && <Redirect to="/login" />}
+                    {authUser && <Redirect to="/login" />}
                     <Route path="/themes/:taskThemeId">
                         <AllTasks />
                     </Route>
