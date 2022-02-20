@@ -20,42 +20,54 @@ import { User } from "./types/user";
 import axios from "../../node_modules/axios/index";
 
 export const App = () => {
-    // const { sendRequest, data: loadedUser, status, error } = useHttp(getUser);
+    const [isLoading, setIsLoading] = useState(false);
     const { authUser, onLogin } = useAuthUser();
 
     //すでにサーバー側でログイン済みの場合はログインした状態にする
     useEffect(() => {
+        setIsLoading(true);
+
         const login = async () => {
-            const { data } = await axios.get<User>("/api/user");
-            if (data) {
-                onLogin(data);
+            try {
+                const response = await axios.get<User>("/api/user");
+                const userData = response.data;
+
+                if (userData) {
+                    onLogin(userData);
+                }
+
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error);
+                setIsLoading(false);
             }
         };
 
         login();
-    }, [onLogin]);
+    }, []);
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <Layout>
-            {status === "pending" && <LoadingSpinner />}
-            {!(status === "pending") && (
-                <Switch>
-                    <Route path="/login">
-                        {authUser && <Redirect to="/themes/1" />}
-                        <LoginPage />
-                    </Route>
-                    {!authUser && <Redirect to="/login" />}
-                    <Route path="/themes/:taskThemeId">
-                        <AllTasks />
-                    </Route>
-                    <Route path="/trash">
-                        <AllTrashTasks />
-                    </Route>
-                    <Route path="*">
-                        <NotFound />
-                    </Route>
-                </Switch>
-            )}
+            <Switch>
+                <Route path="/login">
+                    {authUser && <Redirect to="/themes/1" />}
+                    <LoginPage />
+                </Route>
+                {!authUser && <Redirect to="/login" />}
+                <Route path="/themes/:taskThemeId">
+                    <AllTasks />
+                </Route>
+                <Route path="/trash">
+                    <AllTrashTasks />
+                </Route>
+                <Route path="*">
+                    <NotFound />
+                </Route>
+            </Switch>
         </Layout>
     );
 };
