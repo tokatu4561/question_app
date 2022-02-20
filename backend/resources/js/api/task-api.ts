@@ -40,17 +40,30 @@ export async function softDeleteTask(taskId: string) {
     return null;
 }
 
-// //タスクの更新(実施済みにする)
-// export async function updateDoneTask(taskData) {
-//     const response = await fetch(`/api/tasks/${taskData.id}`, {
-//         method: "PUT",
-//         body: { isDone: !taskData.isDone },
-//     });
-//     const data = await response.json();
+//　削除されているタスク(ソフトデリートされたタスク)を取得する
+export async function getDeletedTasks() {
+    const response = await axios.get(`/api/trash`);
+    const data = await response.data;
 
-//     if (!response.ok) {
-//         throw new Error(data.message || "Could not create quote.");
-//     }
+    // if (!response.ok) {
+    //     throw new Error(data.message || "タスクがありません");
+    // }
 
-//     return null;
-// }
+    return data;
+}
+
+//タスクをゴミ箱から削除する(フォースデリート)
+export async function forceDeleteTask() {
+    const response = await axios.delete("/api/trash");
+    const data = await response.data;
+
+    return null;
+}
+
+//タスクを復元する
+export async function restoreTask(id: string) {
+    const response = await axios.post(`/api/tasks-restore/${id}`);
+    const data = await response.data;
+
+    return data;
+}
