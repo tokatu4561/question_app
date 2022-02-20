@@ -1,14 +1,15 @@
 import React, { useState, useEffect, ReactNode } from "react";
 import { AuthContext } from "./auth-context";
+import axios from "../../../node_modules/axios/index";
 
-import { logout } from "../api/auth-api";
 import { User } from "../types/user";
 
 export const AuthContextProvider = (props: { children: ReactNode }) => {
     const [authUser, setAuthUser] = useState<User | null>(null);
 
-    const onLogout = () => {
-        logout();
+    const onLogout = async () => {
+        const response = await axios.post("/logout");
+
         setAuthUser(null);
     };
 
