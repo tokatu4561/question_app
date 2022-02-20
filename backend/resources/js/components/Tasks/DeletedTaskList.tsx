@@ -14,14 +14,37 @@ export const DeletedTaskList = (props: props) => {
         props.tasks ? props.tasks : []
     );
 
-    const { sendRequest, status, error } = useHttp(forceDeleteTask);
+    const {
+        sendRequest: deleteRequest,
+        status: deleteStatus,
+        error: deleteError,
+    } = useHttp(forceDeleteTask);
+
+    const {
+        sendRequest: restoreRequest,
+        status: restoreStatus,
+        error: restoreError,
+    } = useHttp(forceDeleteTask);
 
     // タスクを完全に削除する（フォースデリート）
     const deleteTask = () => {
         if (window.confirm("完全に削除されますがよろしいですか？")) {
-            sendRequest();
+            deleteRequest();
         }
         setTasks([]);
+    };
+
+    //タスクを復元する
+    const restoreTask = (taskId: string) => {
+        restoreRequest(taskId);
+
+        setTasks((currentTasks) => {
+            const updatedTasks = currentTasks.filter(
+                (task) => task.id !== taskId
+            );
+
+            return updatedTasks;
+        });
     };
 
     return (
@@ -42,6 +65,7 @@ export const DeletedTaskList = (props: props) => {
                             id={task.id}
                             title={task.title}
                             themeId={task.themeId}
+                            onRestoreTask={restoreTask}
                         />
                     ))}
             </ul>

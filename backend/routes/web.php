@@ -21,8 +21,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/api/user', function () {
         return Auth::user();
     });
+
     Route::apiResource('/api/tasks', 'TaskController');
+    Route::post('/api/tasks-restore/{task}', 'TaskController@restore');
+
     Route::apiResource('/api/themes', 'TaskThemeController');
+
+    Route::get('/api/trash', 'TaskController@showDeletedTask');
+    Route::delete('/api/trash', 'TaskController@deleteTasks');
 });
 
 Route::get('/{any?}', function () {

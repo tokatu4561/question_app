@@ -48,18 +48,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * タスクのタイトルを変更
      *
      * @param  \App\Http\Requests\UpdateTaskRequest  $request
      * @param  \App\Models\Task  $task
@@ -85,6 +74,19 @@ class TaskController extends Controller
         $isSuccess = $task->delete();
 
         return $isSuccess ? response()->json([], 200) : response()->json([], 500);
+    }
+
+    /**
+     * タスクを復元する
+     *
+     * @param  \App\Models\Task  $task
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restore(Task $task)
+    {
+        $isSuccess = $task->restore();
+
+        return $isSuccess ? response()->json([], 201) : response()->json([], 500);
     }
 
     /**
