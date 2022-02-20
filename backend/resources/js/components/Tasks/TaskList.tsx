@@ -19,7 +19,11 @@ export const TaskList = (props) => {
     //タスク新規追加のAPI
     const { sendRequest: addRequest, status, error } = useHttp(addTask, false);
     //タスク削除のAPI(ソフトデリート)
-    const { sendRequest: deleteRequest } = useHttp(softDeleteTask, false);
+    const {
+        sendRequest: deleteRequest,
+        status: deleteRequestStatus,
+        error: deleteRequestError,
+    } = useHttp(softDeleteTask, false);
 
     //新規タスク追加フォームの切り替え
     const startAddTaskHandler = () => {
