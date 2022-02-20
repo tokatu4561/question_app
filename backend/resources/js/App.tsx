@@ -14,6 +14,7 @@ import { LoginPage } from "./pages/Auth/LoginPage";
 import { NotFound } from "./pages/NotFound";
 import { AllTasks } from "./pages/AllTasks";
 import useHttp from "./hooks/use-http";
+import { TaskThemeProvider } from "./store/TaskThemesProvider";
 import { AllTrashTasks } from "./pages/AllTrashTasks";
 import { useAuthUser } from "./hooks/use-auth-user";
 import { User } from "./types/user";
@@ -47,27 +48,33 @@ export const App = () => {
     }, []);
 
     if (isLoading) {
-        return <LoadingSpinner />;
+        return (
+            <div className="h-screen">
+                <LoadingSpinner />
+            </div>
+        );
     }
 
     return (
-        <Layout>
-            <Switch>
-                <Route path="/login">
-                    {authUser && <Redirect to="/themes/1" />}
-                    <LoginPage />
-                </Route>
-                {!authUser && <Redirect to="/login" />}
-                <Route path="/themes/:taskThemeId">
-                    <AllTasks />
-                </Route>
-                <Route path="/trash">
-                    <AllTrashTasks />
-                </Route>
-                <Route path="*">
-                    <NotFound />
-                </Route>
-            </Switch>
-        </Layout>
+        <TaskThemeProvider>
+            <Layout>
+                <Switch>
+                    <Route path="/login">
+                        {authUser && <Redirect to="/themes/1" />}
+                        <LoginPage />
+                    </Route>
+                    {!authUser && <Redirect to="/login" />}
+                    <Route path="/themes/:taskThemeId">
+                        <AllTasks />
+                    </Route>
+                    <Route path="/trash">
+                        <AllTrashTasks />
+                    </Route>
+                    <Route path="*">
+                        <NotFound />
+                    </Route>
+                </Switch>
+            </Layout>
+        </TaskThemeProvider>
     );
 };
