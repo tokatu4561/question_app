@@ -56,14 +56,17 @@ export const App = () => {
         );
     }
 
+    const IfAuthedRedirectUrl =
+        history.location.pathname === "/login"
+            ? "/themes/1"
+            : history.location.pathname;
+
     return (
         <TaskThemeProvider>
             <Layout>
                 <Switch>
                     <Route path="/login">
-                        {authUser && (
-                            <Redirect to={history.location.pathname} />
-                        )}
+                        {authUser && <Redirect to={IfAuthedRedirectUrl} />}
                         <LoginPage />
                     </Route>
                     {!authUser && <Redirect to="/login" />}
