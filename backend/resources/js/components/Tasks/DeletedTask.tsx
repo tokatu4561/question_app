@@ -28,7 +28,7 @@ export const DeletedTask = (props: props) => {
                 </Modal>
             )}
             <li
-                className="m-4 p-4 flex justify-between items-end bg-teal-300 hover:bg-teal-100 cursor-pointer shadow rounded"
+                className="m-4 p-4 flex justify-between items-end bg-stone-300 hover:bg-stone-100 cursor-pointer shadow rounded"
                 onClick={showModal}
             >
                 <div className="m-0 p-0 w-10/12">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { SideBar } from "../UI/SideBar";
+import { SideBar } from "./SideBar";
 import { Navigation } from "./Navigation";
 
 export const Layout = (props) => {

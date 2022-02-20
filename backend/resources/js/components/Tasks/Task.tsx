@@ -13,7 +13,7 @@ export const Task = (props: TaskType & { onChangeTaskDelete }) => {
     };
 
     return (
-        <li className="m-4 p-4 flex justify-between items-end bg-teal-200 shadow rounded">
+        <li className="m-4 p-4 flex justify-between items-end bg-stone-200 shadow rounded">
             <div className="m-0 p-0 w-10/12">
                 <p className="text-left text-2xl text-gray-50">{props.title}</p>
             </div>

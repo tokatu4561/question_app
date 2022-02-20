@@ -40,7 +40,7 @@ export const AuthForm = () => {
     }
 
     return (
-        <section className="my-12 mx-auto p-4 w-11/12 max-w-xl rounded bg-teal-500 text-center shadow">
+        <section className="my-12 mx-auto p-4 w-11/12 max-w-xl rounded bg-stone-500 text-center shadow">
             <form onSubmit={submitLoginForm}>
                 <div className="mb-2">
                     <label

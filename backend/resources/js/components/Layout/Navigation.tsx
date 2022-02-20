@@ -9,7 +9,7 @@ export const Navigation = (props: props) => {
     const { authUser } = useAuthUser();
 
     return (
-        <header className="flex p-8 justify-between h-12 items-center bg-teal-500">
+        <header className="flex p-8 justify-between h-12 items-center bg-stone-500">
             <div className="">
                 <button
                     onClick={props.onClickShow}
@@ -25,9 +25,9 @@ export const Navigation = (props: props) => {
                     {authUser && (
                         <li className="ml-4 text-2xl">
                             <NavLink
-                                className="text-teal-200"
+                                className="text-stone-200"
                                 to="/tasks"
-                                activeClassName="text-teal-100"
+                                activeClassName="text-stone-100"
                             >
                                 　Todo一覧
                             </NavLink>
