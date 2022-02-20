@@ -1,28 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     Redirect,
+    useHistory,
 } from "react-router-dom";
-import { getUser } from "./api/auth-api";
+import axios from "../../node_modules/axios/index";
 
 import { Layout } from "./components/Layout/Layout";
 import { LoadingSpinner } from "./components/UI/LoadingSpinner";
 import { LoginPage } from "./pages/Auth/LoginPage";
 import { NotFound } from "./pages/NotFound";
 import { AllTasks } from "./pages/AllTasks";
-import useHttp from "./hooks/use-http";
 import { TaskThemeProvider } from "./store/TaskThemesProvider";
 import { AllTrashTasks } from "./pages/AllTrashTasks";
 import { useAuthUser } from "./hooks/use-auth-user";
 import { User } from "./types/user";
-import axios from "../../node_modules/axios/index";
 
 export const App = () => {
     const [isLoading, setIsLoading] = useState(false);
+
     const { authUser, onLogin } = useAuthUser();
+
+    const history = useHistory();
 
     //すでにサーバー側でログイン済みの場合はログインした状態にする
     useEffect(() => {
@@ -60,7 +61,9 @@ export const App = () => {
             <Layout>
                 <Switch>
                     <Route path="/login">
-                        {authUser && <Redirect to="/themes/1" />}
+                        {authUser && (
+                            <Redirect to={history.location.pathname} />
+                        )}
                         <LoginPage />
                     </Route>
                     {!authUser && <Redirect to="/login" />}
