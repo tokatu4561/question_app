@@ -1,12 +1,9 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { ChangeEvent, useState } from "react";
 import axios from "../../../../node_modules/axios/index";
 
-import { login } from "../../api/auth-api";
 import { useAuthUser } from "../../hooks/use-auth-user";
 import { User } from "../../types/user";
-
-import { LoadingSpinner } from "../UI/LoadingSpinner";
+import { Card } from "../UI/Card";
 
 export const AuthForm = () => {
     const { authUser, onLogin } = useAuthUser();
@@ -31,22 +28,14 @@ export const AuthForm = () => {
         }
     };
 
-    if (status == "pending") {
-        return (
-            <div className="centered">
-                <LoadingSpinner />
-            </div>
-        );
-    }
-
     return (
-        <section className="my-12 mx-auto p-4 w-11/12 max-w-xl rounded bg-stone-500 text-center shadow">
-            <form onSubmit={submitLoginForm}>
+        <Card>
+            <form
+                className="text-center text-stone-800"
+                onSubmit={submitLoginForm}
+            >
                 <div className="mb-2">
-                    <label
-                        className="mb-2 block font-bold text-white"
-                        htmlFor="email"
-                    >
+                    <label className="mb-2 block font-bold" htmlFor="email">
                         ログインID
                     </label>
                     <input
@@ -54,25 +43,31 @@ export const AuthForm = () => {
                         id="email"
                         value={enteredEmail}
                         onChange={changeEmailHandler}
-                        className="p-2 rounded"
+                        className="p-2 border border-stone-700 rounded"
                         required
                     />
                 </div>
                 <div className="mb-2">
-                    <label
-                        className="mb-2 block font-bold text-white"
-                        htmlFor="password"
-                    >
+                    <label className="mb-2 block font-bold" htmlFor="password">
                         パスワード
                     </label>
                     <input
                         type="password"
                         id="password"
-                        className="p-2 rounded"
+                        className="p-2 border border-stone-700 rounded"
                         value={enteredPassword}
                         onChange={changePasswordHandler}
                         required
                     />
+                </div>
+                <div className="mb-2">
+                    <p className="text-xs">
+                        [テストユーザー]
+                        <br />
+                        ログインID: test@test.com
+                        <br />
+                        パスワード: test1234
+                    </p>
                 </div>
                 <div className="mt-3 flex flex-col items-center">
                     <button
@@ -83,6 +78,6 @@ export const AuthForm = () => {
                     </button>
                 </div>
             </form>
-        </section>
+        </Card>
     );
 };
