@@ -1,11 +1,10 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router";
+import { useState } from "react";
+import { v4 as uuid } from "uuid";
 
 import { addTask, softDeleteTask } from "../../api/task-api";
 import useHttp from "../../hooks/use-http";
 import { NewTaskForm } from "./NewTaskForm";
 import { Task } from "./Task";
-import { v4 as uuid } from "uuid";
 
 type props = {
     tasks: [];
