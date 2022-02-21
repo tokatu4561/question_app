@@ -12,4 +12,10 @@ class TaskTheme extends Model
     protected $fillacle = [
         'name'
     ];
+
+    protected $primaryKey = 'id';
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 }

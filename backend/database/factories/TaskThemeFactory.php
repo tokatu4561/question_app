@@ -14,6 +14,7 @@ class TaskThemeFactory extends Factory
     public function definition()
     {
         return [
+            'id' => $this->faker->text(30),
             'name' => $this->faker->text(10),
             'user_id' => 1,
             'created_at' => now(),

@@ -14,9 +14,9 @@ class CreateTasksTable extends Migration
     public function up()
     {
         Schema::create('task_themes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->string('id', 40)->primary();
             $table->string('name');
+            $table->foreignId('user_id')->constrained('users');
 
             $table->timestamps();
         });
