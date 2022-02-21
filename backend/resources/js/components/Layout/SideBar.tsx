@@ -105,6 +105,14 @@ const SideBarOverlay = (props) => {
                                     </NavLink>
                                 ))}
                             </div>
+                            <button
+                                onClick={props.onShow}
+                                className="hover:text-gray-800 font-thin text-gray-500 dark:text-gray-400 hover:bg-gray-100 flex items-center p-2 my-4 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200 justify-start"
+                            >
+                                <span className="mx-4 text-md font-normal">
+                                    新しいリストを追加
+                                </span>
+                            </button>
                         </nav>
                     </div>
                 </div>
@@ -117,11 +125,11 @@ export const SideBar = (props) => {
     return (
         <>
             {ReactDOM.createPortal(
-                <Backdrop show={props.show} onClose={props.onClose} />,
+                <Backdrop show={props.show} onClose={props.onCloseMenu} />,
                 portalElement
             )}
             {ReactDOM.createPortal(
-                <SideBarOverlay show={props.show} />,
+                <SideBarOverlay show={props.show} onShow={props.onShowModal} />,
                 portalElement
             )}
         </>
