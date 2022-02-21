@@ -1,6 +1,7 @@
 import { useRef } from "react";
 
 import { TaskType } from "../../types/task";
+import { Card } from "../UI/Card";
 
 export const Task = (props: TaskType & { onChangeTaskDelete }) => {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -13,19 +14,24 @@ export const Task = (props: TaskType & { onChangeTaskDelete }) => {
     };
 
     return (
-        <li className="m-4 p-4 flex justify-between items-end bg-stone-200 shadow rounded">
-            <div className="m-0 p-0 w-10/12">
-                <p className="text-left text-2xl text-gray-50">{props.title}</p>
-            </div>
+        <Card>
+            <li className="flex">
+                <div className="m-0 p-0 w-10/12">
+                    <p className="text-left text-2xl">{props.title}</p>
+                </div>
 
-            <input
-                id={`check-box${props.id}`}
-                className="check-box cursor-pointer"
-                type="checkbox"
-                ref={inputRef}
-                onChange={onChangeHandler}
-            />
-            <label htmlFor={`check-box${props.id}`}></label>
-        </li>
+                <input
+                    id={`check-box${props.id}`}
+                    className="check-box cursor-pointer"
+                    type="checkbox"
+                    ref={inputRef}
+                    onChange={onChangeHandler}
+                />
+                <label
+                    className="cursor-pointer"
+                    htmlFor={`check-box${props.id}`}
+                ></label>
+            </li>
+        </Card>
     );
 };
