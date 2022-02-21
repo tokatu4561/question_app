@@ -22,46 +22,22 @@ class TaskThemeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     *　タスクリストの新規追加
      *
      * @param  \App\Http\Requests\StoreTaskThemeRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreTaskThemeRequest $request)
     {
-        //
-    }
+        $task = new TaskTheme();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TaskTheme  $taskTheme
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TaskTheme $taskTheme)
-    {
-        //
-    }
+        $task->id       = $request->id;
+        $task->name     = $request->name;
+        $task->user_id  = Auth::id();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TaskTheme  $taskTheme
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TaskTheme $taskTheme)
-    {
-        //
+        $task->save();
+
+        return $task ? response()->json($task, 201) : response()->json([], 500);
     }
 
     /**
