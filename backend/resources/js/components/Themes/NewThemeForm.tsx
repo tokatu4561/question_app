@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useTaskTheme } from "../../hooks/use-task-theme";
 
 type props = {
     themeId: string;
@@ -7,6 +8,8 @@ type props = {
 };
 
 export const NewThemeForm = (props) => {
+    const { addItem } = useTaskTheme();
+
     const textInputRef = useRef<HTMLInputElement>(null);
 
     function submitFormHandler(event) {
@@ -14,7 +17,7 @@ export const NewThemeForm = (props) => {
 
         const enteredText = textInputRef.current.value;
 
-        props.onAddTask(enteredText, props.themeId);
+        addItem({ id: Math.random() * 100, name: enteredText });
     }
 
     return (

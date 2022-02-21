@@ -1,5 +1,14 @@
 import React from "react";
+import { TaskThemeType } from "../types/taskTheme";
 
-export const TaskThemeContext = React.createContext({
+type TaskThemeContext = {
+    items: TaskThemeType[];
+    addItem: (item: TaskThemeType) => void;
+    removeItem: (id: number) => void;
+};
+
+export const TaskThemeContext = React.createContext<TaskThemeContext>({
     items: [],
+    addItem: (item) => {},
+    removeItem: (id) => {},
 });

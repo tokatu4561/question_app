@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 
 import { TaskThemeType } from "../types/taskTheme";
 import { TaskThemeContext } from "./task-theme-context";
@@ -7,8 +7,8 @@ import { getAllTaskThemes } from "../api/task-theme-api";
 export const TaskThemeProvider = (props) => {
     useEffect(() => {
         const api = async () => {
-            const taskThemes = await getAllTaskThemes();
-            allUpdateHandler(taskThemes);
+            const tasks = await getAllTaskThemes();
+            allUpdateHandler(tasks);
         };
 
         api();
@@ -24,28 +24,9 @@ export const TaskThemeProvider = (props) => {
         }
 
         if (action.type === "ADD") {
-            const updatedTotalAmount =
-                state.totalAmount + action.item.price * action.item.amount;
-            const existingCartItemIndex = state.items.findIndex(
-                (item) => item.id === action.item.id
-            );
-            const existingCartItem = state.items[existingCartItemIndex];
-            let updatedItems;
-            //追加するアイテムがすでに存在しているならば上書きする、そうでなければ新規に追加する
-            if (existingCartItem) {
-                const updatedItem = {
-                    ...existingCartItem,
-                    amount: existingCartItem.amount + action.item.amount,
-                };
-                updatedItems = [...state.items];
-                updatedItems[existingCartItemIndex] = updatedItem;
-            } else {
-                updatedItems = state.items.concat(action.item);
-            }
-            return {
-                items: updatedItems,
-                totalAmount: updatedTotalAmount,
-            };
+            const updatedItems = state.items.concat(action.item);
+
+            return { items: updatedItems };
         }
 
         if (action.type === "REMOVE") {
@@ -83,18 +64,18 @@ export const TaskThemeProvider = (props) => {
         dispatchThemeAction({ type: "ALL", items: items });
     };
 
-    const addItemToCartHandler = (item) => {
+    const addTaskThemeHandler = (item) => {
         dispatchThemeAction({ type: "ADD", item: item });
     };
 
-    const removeItemFromCartHandler = (id) => {
+    const removeTaskThemeHandler = (id) => {
         dispatchThemeAction({ type: "REMOVE", id: id });
     };
 
     const themeContext = {
         items: themeState.items,
-        addItem: addItemToCartHandler,
-        removeItem: removeItemFromCartHandler,
+        addItem: addTaskThemeHandler,
+        removeItem: removeTaskThemeHandler,
     };
 
     return (
