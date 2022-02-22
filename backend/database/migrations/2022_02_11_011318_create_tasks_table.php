@@ -24,10 +24,11 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->string('id', 40)->primary();
             $table->string('title');
-            $table->foreignId('task_theme_id')->constrained('task_themes');
+            $table->string('task_theme_id');
 
             $table->softDeletes();
 
+            $table->foreign('task_theme_id')->references('id')->on('task_themes');
             $table->timestamps();
         });
     }
