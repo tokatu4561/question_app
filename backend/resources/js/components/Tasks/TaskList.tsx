@@ -60,6 +60,13 @@ export const TaskList = (props) => {
         });
     };
 
+    if (error) {
+        return <p className="centerd focused">{error}</p>;
+    }
+    if (deleteRequestError) {
+        return <p className="centerd focused">{deleteRequestError}</p>;
+    }
+
     return (
         <>
             <ul className="list-none m-0 p-0">

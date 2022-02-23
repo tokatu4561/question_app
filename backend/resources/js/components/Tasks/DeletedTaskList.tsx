@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 
-import { forceDeleteTask } from "../../api/task-api";
+import { forceDeleteTask, restoreTask } from "../../api/task-api";
 import useHttp from "../../hooks/use-http";
 import { TaskType } from "../../types/task";
 import { DeletedTask } from "./DeletedTask";
@@ -16,15 +16,15 @@ export const DeletedTaskList = (props: props) => {
 
     const {
         sendRequest: deleteRequest,
-        status: deleteStatus,
-        error: deleteError,
+        status: deleteRequestStatus,
+        error: deleteRequestError,
     } = useHttp(forceDeleteTask);
 
     const {
         sendRequest: restoreRequest,
-        status: restoreStatus,
-        error: restoreError,
-    } = useHttp(forceDeleteTask);
+        status: restoreRequestStatus,
+        error: restoreRequestError,
+    } = useHttp(restoreTask);
 
     // タスクを完全に削除する（フォースデリート）
     const deleteTask = () => {
@@ -35,7 +35,7 @@ export const DeletedTaskList = (props: props) => {
     };
 
     //タスクを復元する
-    const restoreTask = (taskId: string) => {
+    const restoreTaskHandler = (taskId: string) => {
         restoreRequest(taskId);
 
         setTasks((currentTasks) => {
@@ -46,6 +46,13 @@ export const DeletedTaskList = (props: props) => {
             return updatedTasks;
         });
     };
+
+    if (restoreRequestError) {
+        return <p className="centerd focused">{restoreRequestError}</p>;
+    }
+    if (deleteRequestError) {
+        return <p className="centerd focused">{deleteRequestError}</p>;
+    }
 
     return (
         <>
@@ -65,7 +72,7 @@ export const DeletedTaskList = (props: props) => {
                             id={task.id}
                             title={task.title}
                             themeId={task.themeId}
-                            onRestoreTask={restoreTask}
+                            onRestoreTask={restoreTaskHandler}
                         />
                     ))}
             </ul>
