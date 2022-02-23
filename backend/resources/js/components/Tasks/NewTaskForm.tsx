@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 
 import { Card } from "../UI/Card";
-import { LoadingSpinner } from "../UI/LoadingSpinner";
 
 type props = {
     themeId: string;

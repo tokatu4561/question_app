@@ -1,5 +1,10 @@
 import { useRef, useState } from "react";
+import { v4 as uuid } from "uuid";
+import { addTaskTheme } from "../../api/task-theme-api";
+
+import useHttp from "../../hooks/use-http";
 import { useTaskTheme } from "../../hooks/use-task-theme";
+import { LoadingSpinner } from "../UI/LoadingSpinner";
 
 type props = {
     themeId: string;
@@ -10,14 +15,28 @@ type props = {
 export const NewThemeForm = (props) => {
     const { addItem } = useTaskTheme();
 
+    //タスク新規追加のAPI
+    const { sendRequest, status, error } = useHttp(addTaskTheme, false);
+
     const textInputRef = useRef<HTMLInputElement>(null);
 
     function submitFormHandler(event) {
         event.preventDefault();
 
+        const themeId = uuid();
         const enteredText = textInputRef.current.value;
+        const themeData = { id: themeId, name: enteredText };
 
-        addItem({ id: Math.random() * 100, name: enteredText });
+        sendRequest(themeData);
+        addItem(themeData);
+    }
+
+    if (error) {
+        return <p className="">{error}</p>;
+    }
+
+    if (status === "pending") {
+        return <LoadingSpinner />;
     }
 
     return (

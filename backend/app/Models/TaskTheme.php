@@ -9,7 +9,7 @@ class TaskTheme extends Model
 {
     use HasFactory;
 
-    protected $fillacle = [
+    protected $fillable = [
         'name'
     ];
 

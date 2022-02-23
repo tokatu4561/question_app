@@ -10,12 +10,12 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillacle = [
+    protected $fillable = [
         'title', 'task_theme_id'
     ];
 
     protected $casts = [
-        'task_theme_id' => 'int'
+        'task_theme_id' => 'string'
     ];
 
     protected $primaryKey = 'id';
