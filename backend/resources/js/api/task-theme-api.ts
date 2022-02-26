@@ -10,11 +10,26 @@ export async function getAllTaskThemes() {
 
 //新しいタスクのテーマを追加する
 export async function addTaskTheme(themes) {
-    const response = await axios.post("/api/themes", {
-        id: themes.id,
-        name: themes.name,
-    });
-    const data = await response.data;
+    try {
+        const response = await axios.post("/api/themes", {
+            id: themes.id,
+            name: themes.name,
+        });
+        const data = await response.data;
 
-    return data;
+        return data;
+    } catch (error) {
+        throw new Error(error || "リストを削除できませんでした");
+    }
+}
+
+//タスクのテーマを削除する
+export async function deleteTaskTheme(taskThemeId: string) {
+    try {
+        const response = await axios.delete(`/api/themes/${taskThemeId}`);
+    } catch (error) {
+        throw new Error(error || "リストを削除できませんでした");
+    }
+
+    return null;
 }

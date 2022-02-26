@@ -53,13 +53,15 @@ class TaskThemeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * タスクリストの削除
      *
      * @param  \App\Models\TaskTheme  $taskTheme
      * @return \Illuminate\Http\Response
      */
     public function destroy(TaskTheme $taskTheme)
     {
-        //
+        $isSuccess = $taskTheme->delete();
+
+        return $isSuccess ? response()->json([], 200) : response()->json([], 500);
     }
 }

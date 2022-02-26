@@ -4,7 +4,7 @@ import { TaskThemeType } from "../types/taskTheme";
 type TaskThemeContext = {
     items: TaskThemeType[];
     addItem: (item: TaskThemeType) => void;
-    removeItem: (id: number) => void;
+    removeItem: (id: string) => void;
 };
 
 export const TaskThemeContext = React.createContext<TaskThemeContext>({

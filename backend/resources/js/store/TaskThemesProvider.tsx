@@ -30,26 +30,11 @@ export const TaskThemeProvider = (props) => {
         }
 
         if (action.type === "REMOVE") {
-            //     const existingCartItemIndex = state.items.findIndex(
-            //         (item) => item.id === action.id
-            //     );
-            //     const existingItem = state.items[existingCartItemIndex];
-            //     const updatedTotalAmount = state.totalAmount - existingItem.price;
-            //     let updatedItems;
-            //     //削除するアイテムの残り量(amount)が0になる場合はカートから完全に削除する
-            //     if (existingItem.amount === 1) {
-            //         updatedItems = state.items.filter(
-            //             (item) => item.id !== action.id
-            //         );
-            //     } else {
-            //         const updatedItem = {
-            //             ...existingItem,
-            //             amount: existingItem.amount - 1,
-            //         };
-            //         updatedItems = [...state.items];
-            //         updatedItems[existingCartItemIndex] = updatedItem;
-            //     }
-            //     return { items: updatedItems, totalAmount: updatedTotalAmount };
+            const updatedItems = state.items.filter(
+                (item) => item.id !== action.id
+            );
+
+            return { items: updatedItems };
         }
 
         return defaultThemeState;
