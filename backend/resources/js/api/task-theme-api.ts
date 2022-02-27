@@ -2,10 +2,14 @@ import axios from "../../../node_modules/axios/index";
 
 // 全てのタスクのリスト(テーマ)を取得
 export async function getAllTaskThemes() {
-    const response = await fetch("/api/themes");
-    const data = await response.json();
+    try {
+        const response = await fetch("/api/themes");
+        const data = await response.json();
 
-    return data;
+        return data;
+    } catch (error) {
+        throw new Error(error || "リストを取得できませんでした");
+    }
 }
 
 //新しいタスクのテーマを追加する
