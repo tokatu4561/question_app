@@ -46,7 +46,7 @@ export const Layout = (props) => {
             />
             {newThemeModalIsOpen && (
                 <Modal onClose={closeNewThemeModal}>
-                    <NewThemeForm />
+                    <NewThemeForm onClose={closeNewThemeModal} />
                 </Modal>
             )}
             {editThemeModalIsOpen && (

@@ -7,12 +7,10 @@ import { useTaskTheme } from "../../hooks/use-task-theme";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
 
 type props = {
-    themeId: string;
-    onAddTask: (title: string, themeId: string) => void;
-    isLoading: boolean;
+    onClose: () => void;
 };
 
-export const NewThemeForm = (props) => {
+export const NewThemeForm = (props: props) => {
     const { addItem } = useTaskTheme();
 
     //タスク新規追加のAPI
@@ -32,7 +30,7 @@ export const NewThemeForm = (props) => {
     }
 
     if (error) {
-        return <p className="">{error}</p>;
+        return <p className="text-center">{error}</p>;
     }
 
     if (status === "pending") {
@@ -44,10 +42,10 @@ export const NewThemeForm = (props) => {
             <form onSubmit={submitFormHandler}>
                 <div className="mb-2">
                     <label
-                        className="font-bold text-center mb-2"
+                        className="font-bold text-center block mb-2"
                         htmlFor="title"
                     >
-                        リストの新規作成
+                        　　新しいタスクリストを追加しましょう
                     </label>
                     <input
                         ref={textInputRef}
@@ -68,12 +66,19 @@ export const NewThemeForm = (props) => {
                         placeholder="例:打ち合わせの件"
                     ></input>
                 </div>
-                <div className="flex justify-between">
-                    <button type="submit" className="btn">
-                        作成
-                    </button>
-                    <button type="submit" className="btn">
+                <div className="text-left">
+                    <button
+                        type="submit"
+                        className="bg-stone-600 hover:bg-stone-800 text-white font-semibold mr-4 py-2 px-4 border border-stone-600 rounded shadow"
+                    >
                         追加する
+                    </button>
+                    <button
+                        type="button"
+                        onClick={props.onClose}
+                        className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                    >
+                        キャンセル
                     </button>
                 </div>
             </form>
