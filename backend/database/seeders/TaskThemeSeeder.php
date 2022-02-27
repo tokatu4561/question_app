@@ -14,6 +14,7 @@ class TaskThemeSeeder extends Seeder
      */
     public function run()
     {
-        TaskTheme::factory(3)->create();
+        // TaskTheme::factory(3)->create();
+        TaskTheme::factory()->create(["name" => "今月中にやること"]);
     }
 }

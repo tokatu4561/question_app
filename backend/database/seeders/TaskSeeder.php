@@ -14,6 +14,8 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
-        Task::factory(20)->create();
+        // Task::factory(20)->create();
+        Task::factory()->create(['title' => "参考書を読む"]);
+        Task::factory()->create(['title' => "マスクを買いに行く"]);
     }
 }
