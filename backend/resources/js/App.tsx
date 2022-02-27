@@ -17,6 +17,7 @@ import { TaskThemeProvider } from "./store/TaskThemesProvider";
 import { AllTrashTasks } from "./pages/AllTrashTasks";
 import { useAuthUser } from "./hooks/use-auth-user";
 import { User } from "./types/user";
+import { Welcom } from "./pages/Welcom";
 
 export const App = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -58,29 +59,32 @@ export const App = () => {
 
     const IfAuthedRedirectUrl =
         history.location.pathname === "/login"
-            ? "/themes/1"
+            ? "/welcom"
             : history.location.pathname;
 
     return (
-        <TaskThemeProvider>
-            <Layout>
-                <Switch>
-                    <Route path="/login">
-                        {authUser && <Redirect to={IfAuthedRedirectUrl} />}
-                        <LoginPage />
+        <Switch>
+            <Route path="/login" exact>
+                {authUser && <Redirect to={IfAuthedRedirectUrl} />}
+                <LoginPage />
+            </Route>
+            {!authUser && <Redirect to="/login" />}
+            <TaskThemeProvider>
+                <Layout>
+                    <Route path="/welcom" exact>
+                        <Welcom />
                     </Route>
-                    {!authUser && <Redirect to="/login" />}
                     <Route path="/themes/:taskThemeId">
                         <AllTasks />
                     </Route>
-                    <Route path="/trash">
+                    <Route path="/trash" exact>
                         <AllTrashTasks />
                     </Route>
-                    <Route path="*">
-                        <NotFound />
-                    </Route>
-                </Switch>
-            </Layout>
-        </TaskThemeProvider>
+                </Layout>
+            </TaskThemeProvider>
+            <Route path="*">
+                <NotFound />
+            </Route>
+        </Switch>
     );
 };
