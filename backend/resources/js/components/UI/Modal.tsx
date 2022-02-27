@@ -12,7 +12,7 @@ const Backdrop = (props) => {
 
 const ModalOverlay = (props) => {
     return (
-        <div className="modal">
+        <div className="modal cursor-pointer">
             <div className="">{props.children}</div>
         </div>
     );
