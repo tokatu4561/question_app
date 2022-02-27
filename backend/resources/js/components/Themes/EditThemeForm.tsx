@@ -27,18 +27,24 @@ export const EditThemeForm = (props) => {
 
     return (
         <>
-            <div className="overflow-y-auto h-96">
+            <div className="overflow-y-auto max-h-96">
                 {items.map((theme) => (
-                    <div key={theme.id}>
-                        <span className="mx-4 text-md font-normal">
+                    <div
+                        className="mb-4 flex justify-between border-b-2 border-inherit border-stone-300"
+                        key={theme.id}
+                    >
+                        <span className="mx-4 p-2 text-md font-normal basis-8/12">
                             {theme.name}
                         </span>
                         <button
-                            className="hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200  text-gray-600 dark:text-gray-400 rounded-lg"
+                            className="hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200  text-gray-600 dark:text-gray-400 rounded-lg"
                             onClick={function () {
                                 deleteTaskThemeHandler(theme.id);
                             }}
-                        ></button>
+                        >
+                            <i className="fa-solid fa-delete-left"></i>
+                            削除する
+                        </button>
                     </div>
                 ))}
             </div>
