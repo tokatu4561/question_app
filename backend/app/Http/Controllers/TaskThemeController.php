@@ -55,12 +55,12 @@ class TaskThemeController extends Controller
     /**
      * タスクリストの削除
      *
-     * @param  \App\Models\TaskTheme  $taskTheme
+     * @param  string $taskThemeId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskTheme $taskTheme)
+    public function destroy(string $taskThemeId)
     {
-        $isSuccess = $taskTheme->delete();
+        $isSuccess = TaskTheme::find($taskThemeId)->delete();
 
         return $isSuccess ? response()->json([], 200) : response()->json([], 500);
     }
