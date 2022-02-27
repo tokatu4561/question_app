@@ -15,9 +15,9 @@ export const Task = (props: TaskType & { onChangeTaskDelete }) => {
 
     return (
         <Card>
-            <li className="flex">
+            <li className="flex justify-around">
                 <div className="m-0 p-0 w-10/12">
-                    <p className="text-left text-2xl">{props.title}</p>
+                    <p className="text-left text-xl">{props.title}</p>
                 </div>
 
                 <input

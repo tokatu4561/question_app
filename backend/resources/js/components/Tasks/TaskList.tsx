@@ -61,10 +61,10 @@ export const TaskList = (props) => {
     };
 
     if (error) {
-        return <p className="centerd focused">{error}</p>;
+        return <p className="text-center">{error}</p>;
     }
     if (deleteRequestError) {
-        return <p className="centerd focused">{deleteRequestError}</p>;
+        return <p className="text-center">{deleteRequestError}</p>;
     }
 
     return (
@@ -82,8 +82,11 @@ export const TaskList = (props) => {
                     ))}
             </ul>
             {!isShowTaskForm && (
-                <button className="btn" onClick={startAddTaskHandler}>
-                    やることを追加
+                <button
+                    className="bg-stone-600 hover:bg-stone-800 text-white font-semibold py-2 px-4 border border-stone-600 rounded shadow"
+                    onClick={startAddTaskHandler}
+                >
+                    タスクを追加
                 </button>
             )}
             {isShowTaskForm && (
@@ -92,8 +95,8 @@ export const TaskList = (props) => {
                         themeId={props.themeId}
                         onAddTask={addNewTask}
                         isLoading={status == "pending"}
+                        onEndAddTask={endAddTaskHandler}
                     ></NewTaskForm>
-                    <button onClick={endAddTaskHandler}>閉じる</button>
                 </>
             )}
         </>

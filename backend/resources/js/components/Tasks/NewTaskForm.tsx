@@ -5,6 +5,7 @@ import { Card } from "../UI/Card";
 type props = {
     themeId: string;
     onAddTask: (title: string, themeId: string) => void;
+    onEndAddTask: () => void;
     isLoading: boolean;
 };
 
@@ -41,9 +42,6 @@ export const NewTaskForm = (props: props) => {
                     onSubmit={submitFormHandler}
                 >
                     <div className="mb-2">
-                        <label className="font-bold mb-2" htmlFor="title">
-                            やること
-                        </label>
                         <textarea
                             ref={textInputRef}
                             className="form-control
@@ -66,9 +64,19 @@ export const NewTaskForm = (props: props) => {
                             placeholder="例:朝ごはんを食べる"
                         ></textarea>
                     </div>
-                    <div className="text-right">
-                        <button type="submit" className="btn">
+                    <div className="text-left">
+                        <button
+                            type="submit"
+                            className="bg-stone-600 hover:bg-stone-800 text-white font-semibold mr-4 py-2 px-4 border border-stone-600 rounded shadow"
+                        >
                             追加する
+                        </button>
+                        <button
+                            type="button"
+                            onClick={props.onEndAddTask}
+                            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                        >
+                            キャンセル
                         </button>
                     </div>
                 </form>

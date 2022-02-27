@@ -18,7 +18,7 @@
 .check-box + label:before {
     font-family: FontAwesome;
     display: inline-block;
-    font-size: 2em;
+    font-size: 1.25em;
 }
 .check-box + label:before {
     content: "\f096" !important;
