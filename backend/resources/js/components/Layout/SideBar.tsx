@@ -35,8 +35,8 @@ const SideBarOverlay = (props) => {
                                 to="/trash"
                                 activeClassName="bg-gray-100 dark:bg-gray-600"
                             >
-                                <i className="fas fa-trash-alt"></i>
-                                <span className="mx-4 text-md font-normal text-blue-500">
+                                <i className="fas fa-trash-alt text-blue-500"></i>
+                                <span className="mx-4 text-md font-normal">
                                     ゴミ箱
                                 </span>
                             </NavLink>
