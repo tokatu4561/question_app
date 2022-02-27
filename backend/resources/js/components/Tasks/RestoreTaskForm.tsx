@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 type props = {
     id: string;
     title: string;
@@ -8,14 +6,15 @@ type props = {
 
 export const RestoreTaskForm = (props: props) => {
     return (
-        <div>
-            <p>{props.title}</p>
+        <div className="flex justify-between">
+            <p className="py-2 justify-betweenfont-bold">{props.title}</p>
             <button
+                className="bg-stone-600 hover:bg-stone-800 text-white font-semibold py-2 px-4 border border-stone-600 rounded shadow"
                 onClick={function () {
                     props.onRestore(props.id);
                 }}
             >
-                このタスクを復元する
+                タスクを復元する
             </button>
         </div>
     );
