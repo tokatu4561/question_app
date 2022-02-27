@@ -33,7 +33,7 @@ const SideBarOverlay = (props) => {
                             <NavLink
                                 className="hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200  text-gray-600 dark:text-gray-400 rounded-lg"
                                 to="/trash"
-                                activeClassName="bg-gray-100 dark:bg-gray-600"
+                                activeClassName="bg-gray-100 dark:bg-gray-600 text-blue-500"
                             >
                                 <i className="fas fa-trash-alt"></i>
                                 <span className="mx-4 text-md font-normal">
@@ -44,7 +44,7 @@ const SideBarOverlay = (props) => {
                                 onClick={onLogout}
                                 className="hover:text-gray-800 font-thin text-gray-500 dark:text-gray-400 hover:bg-gray-100 flex items-center p-2 my-4 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200 justify-start"
                             >
-                                <i className="fa-solid fa-right-from-bracket"></i>
+                                <i className="fa-solid fa-right-from-bracket text-blue-500"></i>
                                 <span className="mx-4 text-md font-normal">
                                     ログアウト
                                 </span>
@@ -66,7 +66,7 @@ const SideBarOverlay = (props) => {
                                         key={theme.id}
                                         activeClassName="bg-gray-100 dark:bg-gray-600"
                                     >
-                                        <i className="fa-solid fa-list-check"></i>
+                                        <i className="fa-solid fa-list-check text-blue-500"></i>
                                         <span className="mx-4 text-md font-normal">
                                             {theme.name}
                                         </span>
