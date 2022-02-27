@@ -4,10 +4,12 @@ import { SideBar } from "./SideBar";
 import { Navigation } from "./Navigation";
 import { Modal } from "../UI/Modal";
 import { NewThemeForm } from "../Themes/NewThemeForm";
+import { EditThemeForm } from "../Themes/EditThemeForm";
 
 export const Layout = (props) => {
     const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [newThemeModalIsOpen, setNewThemeModalIsOpen] = useState(false);
+    const [editThemeModalIsOpen, setEditThemeModalIsOpen] = useState(false);
 
     const showSideMenu = () => {
         setSideMenuIsOpen(true);
@@ -17,12 +19,20 @@ export const Layout = (props) => {
         setSideMenuIsOpen(false);
     };
 
-    const showModal = () => {
-        setModalIsOpen(true);
+    const showNewThemeModal = () => {
+        setNewThemeModalIsOpen(true);
     };
 
-    const closeModal = () => {
-        setModalIsOpen(false);
+    const closeNewThemeModal = () => {
+        setNewThemeModalIsOpen(false);
+    };
+
+    const showEditThemeModal = () => {
+        setEditThemeModalIsOpen(true);
+    };
+
+    const closeEditThemeModal = () => {
+        setEditThemeModalIsOpen(false);
     };
 
     return (
@@ -31,11 +41,17 @@ export const Layout = (props) => {
             <SideBar
                 show={sideMenuIsOpen}
                 onCloseMenu={closeSideMenu}
-                onShowModal={showModal}
+                onShowNewThemeModal={showNewThemeModal}
+                onShowEditThemeModal={showEditThemeModal}
             />
-            {modalIsOpen && (
-                <Modal onClose={closeModal}>
+            {newThemeModalIsOpen && (
+                <Modal onClose={closeNewThemeModal}>
                     <NewThemeForm />
+                </Modal>
+            )}
+            {editThemeModalIsOpen && (
+                <Modal onClose={closeEditThemeModal}>
+                    <EditThemeForm />
                 </Modal>
             )}
             <main className="my-12 mx-auto w-11/12 max-w-2xl">
