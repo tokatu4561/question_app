@@ -28,7 +28,7 @@ class CreateTasksTable extends Migration
 
             $table->softDeletes();
 
-            $table->foreign('task_theme_id')->references('id')->on('task_themes');
+            $table->foreign('task_theme_id')->references('id')->on('task_themes')->cascadeOnDelete();
             $table->timestamps();
         });
     }
