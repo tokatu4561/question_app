@@ -28,9 +28,7 @@ export const DeletedTaskList = (props: props) => {
 
     // タスクを完全に削除する（フォースデリート）
     const deleteTask = () => {
-        if (window.confirm("完全に削除されますがよろしいですか？")) {
-            deleteRequest();
-        }
+        deleteRequest();
         setTasks([]);
     };
 

@@ -2,6 +2,7 @@ import { TaskType } from "../../types/task";
 import { RestoreTaskForm } from "./RestoreTaskForm";
 import { Modal } from "../UI/Modal";
 import { useState } from "react";
+import { Card } from "../UI/Card";
 
 type props = TaskType & { onRestoreTask: (id: string) => void };
 
@@ -27,16 +28,16 @@ export const DeletedTask = (props: props) => {
                     />
                 </Modal>
             )}
-            <li
-                className="m-4 p-4 flex justify-between items-end bg-stone-300 hover:bg-stone-100 cursor-pointer shadow rounded"
-                onClick={showModal}
-            >
-                <div className="m-0 p-0 w-10/12">
-                    <p className="text-left text-2xl text-gray-50">
-                        {props.title}
-                    </p>
-                </div>
-            </li>
+            <Card>
+                <li
+                    className="hover:bg-stone-300 cursor-pointer"
+                    onClick={showModal}
+                >
+                    <div className="m-0 p-0">
+                        <p className="text-left text-xl">{props.title}</p>
+                    </div>
+                </li>
+            </Card>
         </>
     );
 };
