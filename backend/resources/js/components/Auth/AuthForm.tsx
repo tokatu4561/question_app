@@ -4,12 +4,15 @@ import axios from "../../../../node_modules/axios/index";
 import { useAuthUser } from "../../hooks/use-auth-user";
 import { User } from "../../types/user";
 import { Card } from "../UI/Card";
+import { LoadingSpinner } from "../UI/LoadingSpinner";
 
 export const AuthForm = () => {
-    const { authUser, onLogin } = useAuthUser();
+    const { onLogin } = useAuthUser();
 
     const [enteredEmail, setEnterdEmail] = useState<string>("");
     const [enteredPassword, setEnterdPassword] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     const changeEmailHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setEnterdEmail(e.target.value);
@@ -21,12 +24,27 @@ export const AuthForm = () => {
     const submitLoginForm = async (e) => {
         e.preventDefault();
         const authData = { email: enteredEmail, password: enteredPassword };
-        const { data } = await axios.post<User>("/login", authData);
 
-        if (data) {
-            onLogin(data);
+        setIsLoading(true);
+        try {
+            const { data } = await axios.post<User>("login", authData);
+            if (data) {
+                setIsError(false);
+                onLogin(data);
+            }
+        } catch (error) {
+            setIsError(true);
+            setIsLoading(false);
         }
     };
+
+    if (isLoading) {
+        return (
+            <div className="h-screen">
+                <LoadingSpinner />
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-2xl mx-auto mt-16">
@@ -35,6 +53,9 @@ export const AuthForm = () => {
                     className="text-center text-stone-800"
                     onSubmit={submitLoginForm}
                 >
+                    {isError && (
+                        <p className="text-red-500">ログインできませんでした</p>
+                    )}
                     <div className="mb-2">
                         <label className="mb-2 block font-bold" htmlFor="email">
                             ログインID
