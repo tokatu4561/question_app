@@ -79,12 +79,12 @@ class TaskController extends Controller
     /**
      * タスクを復元する
      *
-     * @param  \App\Models\Task  $task
+     * @param string $taskId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function restore(Task $task)
+    public function restore(string $taskId)
     {
-        $isSuccess = $task->restore();
+        $isSuccess = Task::onlyTrashed()->find($taskId)->restore();
 
         return $isSuccess ? response()->json([], 201) : response()->json([], 500);
     }
