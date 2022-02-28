@@ -3,7 +3,7 @@ import axios from "../../../node_modules/axios/index";
 // 指定したテーマ内の全てのタスクを取得
 export async function getAllTasks(taskThemeId) {
     try {
-        const response = await axios.get(`api/tasks?theme=${taskThemeId}`);
+        const response = await axios.get(`/api/tasks?theme=${taskThemeId}`);
         const data = await response.data;
 
         return data;
@@ -15,7 +15,7 @@ export async function getAllTasks(taskThemeId) {
 //タスクを追加する
 export async function addTask(taskData) {
     try {
-        const response = await axios.post("api/tasks", {
+        const response = await axios.post("/api/tasks", {
             id: taskData.taskId,
             title: taskData.title,
             themeId: taskData.themeId,
@@ -31,7 +31,7 @@ export async function addTask(taskData) {
 //タスクを削除する(ソフトデリート)
 export async function softDeleteTask(taskId: string) {
     try {
-        const response = await axios.delete(`api/tasks/${taskId}`);
+        const response = await axios.delete(`/api/tasks/${taskId}`);
         const data = await response.data;
         return null;
     } catch (error) {
@@ -42,7 +42,7 @@ export async function softDeleteTask(taskId: string) {
 //　削除されているタスク(ソフトデリートされたタスク)を取得する
 export async function getDeletedTasks() {
     try {
-        const response = await axios.get(`api/trash`);
+        const response = await axios.get(`/api/trash`);
         const data = await response.data;
 
         return data;
@@ -54,7 +54,7 @@ export async function getDeletedTasks() {
 //タスクをゴミ箱から削除する(フォースデリート)
 export async function forceDeleteTask() {
     try {
-        const response = await axios.delete("api/trash");
+        const response = await axios.delete("/api/trash");
         const data = await response.data;
 
         return null;
@@ -66,7 +66,7 @@ export async function forceDeleteTask() {
 //タスクを復元する
 export async function restoreTask(id: string) {
     try {
-        const response = await axios.post(`api/tasks-restore/${id}`);
+        const response = await axios.post(`/api/tasks-restore/${id}`);
         const data = await response.data;
 
         return data;
