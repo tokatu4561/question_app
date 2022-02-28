@@ -32,7 +32,7 @@ export const App = () => {
 
         const login = async () => {
             try {
-                const response = await axios.get<User>("/api/user");
+                const response = await axios.get<User>("api/user");
                 const userData = response.data;
 
                 if (userData) {
@@ -41,7 +41,6 @@ export const App = () => {
 
                 setIsLoading(false);
             } catch (error) {
-                console.log(error);
                 setIsLoading(false);
             }
         };
