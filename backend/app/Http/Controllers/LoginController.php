@@ -43,6 +43,10 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        if ($request->isSecure()) {
+            return redirect('/', 302, [], true);
+        }
+
+        return redirect('/', 302);
     }
 }
