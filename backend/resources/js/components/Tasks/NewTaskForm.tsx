@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
 import { Card } from "../UI/Card";
+import { LoadingSpinner } from "../UI/LoadingSpinner";
 
 type props = {
     themeId: string;
@@ -27,14 +28,12 @@ export const NewTaskForm = (props: props) => {
         setIsEntering(true);
     };
 
-    const cssClasses = [
-        "bg-black text-white fixed bottom-0 left-50 z-20 transition-all duration-300",
-        props.isLoading ? "translate-y-0" : "-translate-y-full",
-    ];
+    if (props.isLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <>
-            <div className={cssClasses.join(" ")}>保存中...</div>
             <Card>
                 <form
                     onFocus={formFocusedHandler}

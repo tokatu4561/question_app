@@ -28,16 +28,16 @@ export const AllTasks = () => {
         return <p className="centerd focused">{error}</p>;
     }
 
-    if (status === "completed" && (!loadedTodo || loadedTodo.length === 0)) {
-        return <NoTasksFound />;
+    if (status === "pending") {
+        return <LoadingSpinner />;
     }
 
     return (
         <>
-            <div className="flex items-center border-b-4 border-inherit border-gray-400">
+            <div className="flex items-center border-b-4 border-inherit border-gray-400 overflow-x-scroll">
                 {taskThemeCtx.items.map((theme) => (
                     <NavLink
-                        className="hover:text-gray-800 hover:bg-gray-100 p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200  text-gray-600 dark:text-gray-400 rounded"
+                        className="hover:text-gray-800 hover:bg-gray-100 p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200 min-w-fit text-gray-600 dark:text-gray-400 rounded"
                         to={`/themes/${theme.id}`}
                         key={theme.id}
                         activeClassName="bg-gray-100 dark:bg-gray-600"
