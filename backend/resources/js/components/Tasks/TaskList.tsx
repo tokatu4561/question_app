@@ -3,15 +3,17 @@ import { v4 as uuid } from "uuid";
 
 import { addTask, softDeleteTask } from "../../api/task-api";
 import useHttp from "../../hooks/use-http";
+import { TaskType } from "../../types/task";
 import { NewTaskForm } from "./NewTaskForm";
+import { NoTasksFound } from "./NoTasksFound";
 import { Task } from "./Task";
 
 type props = {
-    tasks: [];
+    tasks: TaskType[];
     themeId: string;
 };
 
-export const TaskList = (props) => {
+export const TaskList = (props: props) => {
     const [isShowTaskForm, setIsShowTaskForm] = useState(false);
 
     const [tasks, setTasks] = useState(props.tasks);
@@ -69,9 +71,9 @@ export const TaskList = (props) => {
 
     return (
         <>
-            <ul className="list-none m-0 p-0">
-                {tasks.length > 0 &&
-                    tasks.map((task) => (
+            {tasks.length > 0 ? (
+                <ul className="list-none m-0 p-0">
+                    {tasks.map((task) => (
                         <Task
                             key={task.id}
                             id={task.id}
@@ -80,7 +82,11 @@ export const TaskList = (props) => {
                             onChangeTaskDelete={deleteIsDoneTask}
                         />
                     ))}
-            </ul>
+                </ul>
+            ) : (
+                <NoTasksFound />
+            )}
+
             {!isShowTaskForm && (
                 <button
                     className="bg-stone-600 hover:bg-stone-800 text-white font-semibold py-2 px-4 border border-stone-600 rounded shadow"
