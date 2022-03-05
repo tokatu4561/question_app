@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { useInput } from "../../hooks/use-input";
 
 import { Card } from "../UI/Card";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
@@ -10,23 +11,22 @@ type props = {
     isLoading: boolean;
 };
 
-export const NewTaskForm = (props: props) => {
-    const [isEntering, setIsEntering] = useState(false);
+const isNotEmpty = (value: string) => value.trim() !== "";
 
-    const textInputRef = useRef<HTMLTextAreaElement>(null);
+export const NewTaskForm = (props: props) => {
+    const {
+        value: enteredText,
+        isValid,
+        hasError,
+        valueChangeHandler: changeTextHandler,
+        inputBlurHandler: blurTexrHandler,
+    } = useInput(isNotEmpty);
 
     function submitFormHandler(event) {
         event.preventDefault();
-        setIsEntering(false);
-
-        const enteredText = textInputRef.current.value;
 
         props.onAddTask(enteredText, props.themeId);
     }
-
-    const formFocusedHandler = () => {
-        setIsEntering(true);
-    };
 
     if (props.isLoading) {
         return <LoadingSpinner />;
@@ -35,14 +35,14 @@ export const NewTaskForm = (props: props) => {
     return (
         <>
             <Card>
-                <form
-                    onFocus={formFocusedHandler}
-                    className="relative"
-                    onSubmit={submitFormHandler}
-                >
+                {hasError && (
+                    <p className="text-red-500">何か入力してください</p>
+                )}
+                <form className="relative" onSubmit={submitFormHandler}>
                     <div className="mb-2">
                         <textarea
-                            ref={textInputRef}
+                            onChange={changeTextHandler}
+                            onBlur={blurTexrHandler}
                             className="form-control
                             block
                             w-full
@@ -66,7 +66,8 @@ export const NewTaskForm = (props: props) => {
                     <div className="text-left">
                         <button
                             type="submit"
-                            className="bg-stone-600 hover:bg-stone-800 text-white font-semibold mr-4 py-2 px-4 border border-stone-600 rounded shadow"
+                            disabled={!isValid}
+                            className="bg-stone-600 hover:bg-stone-800 text-white font-semibold mr-4 py-2 px-4 border border-stone-600 rounded shadow disabled:opacity-25"
                         >
                             追加する
                         </button>
