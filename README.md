@@ -11,4 +11,4 @@ awsで公開しております、タスク管理サイトになります。お�
 Docker php8 Laravel8 react typescript tailwindcss3.0
 
 # 制作理由
-reactを使用して、何か制作したかったため。
+フロント技術が好きで、簡単なspaのアプリを制作してみたかったため、Reactを使用して制作しました。
