@@ -28,11 +28,8 @@ export const DeletedTask = (props: props) => {
                     />
                 </Modal>
             )}
-            <Card>
-                <li
-                    className="hover:bg-stone-300 cursor-pointer"
-                    onClick={showModal}
-                >
+            <Card style="hover:bg-stone-300 cursor-pointer">
+                <li className="" onClick={showModal}>
                     <div className="m-0 p-0">
                         <p className="text-left text-xl">{props.title}</p>
                     </div>
